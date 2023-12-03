@@ -105,30 +105,61 @@ class ApplianceController extends BaseController
      */
     public function update(Request $request, Appliance $appliance)
     {
-        $input = $request->all();
-   
-        $validator = Validator::make($input, [
-            'a_name' => 'required',
-            'a_category' => 'required',
-            'a_watt' => 'required',
-            'a_consumption' => 'required',
-            'device' => 'required',
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
-        }
-   
-        $appliance->a_name = $input['a_name'];
-        $appliance->a_category = $input['a_category'];
-        $appliance->a_watt = $input['a_watt'];
-        $appliance->a_consumption = $input['a_consumption'];
-        $appliance->device = $input['device'];
+        $input = $request->only(['a_name', 'a_category', 'a_watt', 'a_consumption', 'device']);
 
-        $appliance->save();
-   
-        return $this->sendResponse(new ApplianceResource($appliance), 'Appliance updated successfully.');
+        $validator = Validator::make($input, [
+            'a_name' => 'sometimes|required',
+            'a_category' => 'sometimes|required',
+            'a_watt' => 'sometimes|required',
+            'a_consumption' => 'sometimes|required',
+            'device' => 'sometimes|required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        try {
+            // Loop through the input data and update only the provided fields
+            foreach ($input as $key => $value) {
+                $appliance->{$key} = $value;
+            }
+
+            $appliance->save();
+
+            return $this->sendResponse(new ApplianceResource($appliance), 'Appliance updated successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception, log, and return an error response
+            return $this->sendError('Error updating appliance.', ['message' => $e->getMessage()]);
+        }
     }
+
+    // public function update(Request $request, Appliance $appliance)
+    // {
+    //     $input = $request->all();
+   
+    //     $validator = Validator::make($input, [
+    //         'a_name' => 'required',
+    //         'a_category' => 'required',
+    //         'a_watt' => 'required',
+    //         'a_consumption' => 'required',
+    //         'device' => 'required',
+    //     ]);
+   
+    //     if($validator->fails()){
+    //         return $this->sendError('Validation Error.', $validator->errors());       
+    //     }
+   
+    //     $appliance->a_name = $input['a_name'];
+    //     $appliance->a_category = $input['a_category'];
+    //     $appliance->a_watt = $input['a_watt'];
+    //     $appliance->a_consumption = $input['a_consumption'];
+    //     $appliance->device = $input['device'];
+
+    //     $appliance->save();
+   
+    //     return $this->sendResponse(new ApplianceResource($appliance), 'Appliance updated successfully.');
+    // }
    
     /**
      * Remove the specified resource from storage.

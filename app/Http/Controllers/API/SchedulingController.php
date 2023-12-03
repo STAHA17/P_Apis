@@ -75,30 +75,61 @@ class SchedulingController extends BaseController
      */
     public function update(Request $request, Scheduling $scheduling)
     {
-        $input = $request->all();
-   
-        $validator = Validator::make($input, [
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'slot_1' => 'required',
-            'slot_2' => 'required',
-            'slot_3' => 'required',
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
-        }
-   
-        $scheduling->start_time = $input['start_time'];
-        $scheduling->end_time = $input['end_time'];
-        $scheduling->slot_1 = $input['slot_1'];
-        $scheduling->slot_2 = $input['slot_2'];
-        $scheduling->slot_3 = $input['slot_3'];
+        $input = $request->only(['start_time', 'end_time', 'slot_1', 'slot_2', 'slot_3']);
 
-        $scheduling->save();
-   
-        return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling schedule updated successfully.');
+        $validator = Validator::make($input, [
+            'start_time' => 'sometimes|required',
+            'end_time' => 'sometimes|required',
+            'slot_1' => 'sometimes|required',
+            'slot_2' => 'sometimes|required',
+            'slot_3' => 'sometimes|required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        try {
+            // Loop through the input data and update only the provided fields
+            foreach ($input as $key => $value) {
+                $scheduling->{$key} = $value;
+            }
+
+            $scheduling->save();
+
+            return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling schedule updated successfully.');
+        } catch (\Exception $e) {
+            // Handle the exception, log, and return an error response
+            return $this->sendError('Error updating scheduling schedule.', ['message' => $e->getMessage()]);
+        }
     }
+
+    // public function update(Request $request, Scheduling $scheduling)
+    // {
+    //     $input = $request->all();
+   
+    //     $validator = Validator::make($input, [
+    //         'start_time' => 'required',
+    //         'end_time' => 'required',
+    //         'slot_1' => 'required',
+    //         'slot_2' => 'required',
+    //         'slot_3' => 'required',
+    //     ]);
+   
+    //     if($validator->fails()){
+    //         return $this->sendError('Validation Error.', $validator->errors());       
+    //     }
+   
+    //     $scheduling->start_time = $input['start_time'];
+    //     $scheduling->end_time = $input['end_time'];
+    //     $scheduling->slot_1 = $input['slot_1'];
+    //     $scheduling->slot_2 = $input['slot_2'];
+    //     $scheduling->slot_3 = $input['slot_3'];
+
+    //     $scheduling->save();
+   
+    //     return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling schedule updated successfully.');
+    // }
    
     /**
      * Remove the specified resource from storage.

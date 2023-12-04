@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('solar_capacity')->nullable();
-            $table->string('status')->nullable();
+            $table->string('check')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

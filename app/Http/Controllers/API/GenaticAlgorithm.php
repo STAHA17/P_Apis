@@ -6,6 +6,10 @@ use App\Models\Appliance,Scheduling,User;
 use Validator;
 use App\Http\Resources\ApplianceResource;
 
+// public function start(){
+//     return null;
+// }
+
 function DataFetchAlgorithm($appliancePower, $applianceConsumption) {
     // Replace these placeholders with your actual API endpoints
     $apiEndpoint1 = "http://localhost:8000/api/appliance/power?appliancePower=" . $appliancePower;

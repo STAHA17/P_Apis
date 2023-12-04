@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'latitude' => $this -> latitude,
             'longitude' => $this -> longitude,
             'solar_capacity' => $this -> solar_capacity,
-            'status' => $this -> status,
+            'check' => $this -> check,
 
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),

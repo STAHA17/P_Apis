@@ -25,7 +25,7 @@ class User extends Authenticatable
         'latitude',
         'longitude',
         'solar_capacity',
-        'status',
+        'check',
     ];
 
     /**
@@ -51,5 +51,9 @@ class User extends Authenticatable
     public function appliances()
     {
         return $this->hasMany(Appliance::class);
+    }
+
+    public function getLatLong(){
+        return $this->latitude;
     }
 }

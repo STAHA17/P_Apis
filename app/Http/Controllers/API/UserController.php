@@ -7,7 +7,8 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\UserResource;
-   
+use Illuminate\Support\Facades\Auth;
+
 class UserController extends BaseController
 {
     /**
@@ -22,38 +23,53 @@ class UserController extends BaseController
     //      $this->middleware('auth:api')->except(['index', 'show']);
     //  }
 
-    // public function index()
-    // {
-    //     $users = User::all();
-        
-    //     return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
+
+    // public function GetUserLatLong($id) {
+    //     $user=User::Find($id)->first(['latitude', 'longitude','check']);
+    //     return $this->sendResponse($user, "user data");
     // }
 
-    public function index(Request $request)
+    public function getUserCheckById($id) {
+        $user = User::Where('id',$id)->first('check');
+        return $this->sendResponse($user, "user data");
+    }
+
+    public function getUserIdByCheck($check) {
+        $user = User::Where('check',$check)->first('id');
+        return $this->sendResponse($user, "user data");
+    }
+
+
+
+    public function getUserIdEmail() {
+        $user = User::Where('id', Auth::id())->first(['id','email']);
+        return $this->sendResponse($user, "user data");
+    }
+
+    public function index()
     {
-        // Get the 'fields' query parameter
-        $fields = $request->query('fields', '*');
-
-        // Convert the fields string to an array
-        $fieldsArray = explode(',', $fields);
-
-        // Check if all fields are requested
-        if ($fields === '*') {
-            $users = User::all();
-        } else {
-            // Fetch specific fields if requested
-            $users = User::select($fieldsArray)->get();
-        }
-
+        $users = User::all();
+        
         return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
     }
 
-    // public function index1(Request $request)
+    // public function index(Request $request)
     // {
+    //     // Get the 'fields' query parameter
     //     $fields = $request->query('fields', '*');
-    //     $users = User::select(explode(',', $fields))->get();
 
-    //     return response()->json($users);
+    //     // Convert the fields string to an array
+    //     $fieldsArray = explode(',', $fields);
+
+    //     // Check if all fields are requested
+    //     if ($fieldsArray === '*') {
+    //         $users = User::all();
+    //     } else {
+    //         // Fetch specific fields if requested
+    //         $users = User::select($fieldsArray)->get();
+    //     }
+
+    //     return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
     // }
 
     /**
@@ -73,7 +89,7 @@ class UserController extends BaseController
             'latitude' => 'required',
             'longitude' => 'required',
             'solar_capacity' => 'required',
-            'status' => 'required'
+            'check' => 'required'
 
         ]);
    
@@ -112,7 +128,7 @@ class UserController extends BaseController
      */
     public function update(Request $request, User $user)
     {
-        $input = $request->only(['name', 'email', 'password', 'latitude', 'longitude', 'solar_capacity', 'status']);
+        $input = $request->only(['name', 'email', 'password', 'latitude', 'longitude', 'solar_capacity', 'check']);
 
         $validator = Validator::make($input, [
             'name' => 'sometimes|required',
@@ -121,7 +137,7 @@ class UserController extends BaseController
             'latitude' => 'sometimes|required',
             'longitude' => 'sometimes|required',
             'solar_capacity' => 'sometimes|required',
-            'status' => 'sometimes|required'
+            'check' => 'sometimes|required'
         ]);
 
         if ($validator->fails()) {
@@ -186,4 +202,5 @@ class UserController extends BaseController
    
         return $this->sendResponse([], 'User deleted successfully.');
     }
+    
 }

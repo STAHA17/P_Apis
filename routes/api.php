@@ -8,6 +8,8 @@ use App\Http\Controllers\API\ApplianceController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SchedulingController;
 
+use App\Http\Controllers\API\CheckController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,6 +37,7 @@ Route::middleware(['cors'])->group(function(){
     
     Route::middleware('auth:sanctum')->group( function () {
         Route::resource('user', UserController::class);
+        Route::get('getUserIdEmail', [UserController::class,'getUserIdEmail'])->name("getUserIdEmail");
     });
       
     Route::middleware('auth:sanctum')->group( function () {
@@ -43,11 +46,18 @@ Route::middleware(['cors'])->group(function(){
     Route::post('some',function(){
         return "some thing ho geya";
     });
+    // Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
+    Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
+
+
+    Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
 });
 
 Route::resource('appliances', ApplianceController::class);
 Route::resource('users', UserController::class);
 Route::resource('schedulings', SchedulingController::class);
+
+//Route::resource('checks', CheckController::class);
 
 // Route::get('/api/users', 'UserController@index1');
 // Route::get('/api/appliances', 'ApplianceController@index1');

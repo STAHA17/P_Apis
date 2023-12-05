@@ -19,10 +19,9 @@ class GAController extends Controller
 
     public function appliance($appliance_id) {
         Auth::appliance()->a_watt;
-        $user = Appliance::Where('id',$appliance_id)->first('name', 'a_watt', 'a_consumption','user_id');
+        $appliance = Appliance::Where('id',$appliance_id)->first('name', 'a_watt', 'a_consumption','user_id');
 
-        $users = Appliance::all()->pluck('name', 'a_watt', 'a_consumption','user_id');
+        $appliance = Appliance::all()->pluck('name', 'a_watt', 'a_consumption','user_id');
     }
-
 
 }

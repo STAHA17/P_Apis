@@ -53,6 +53,17 @@ class UserController extends BaseController
         return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
     }
 
+    public function getTokenThroughCheck($check){
+        $user = User::Where('check', $check)->first();
+        if($user!=null){
+            $data['token'] = $user->createToken('MyApp')->plainTextToken;
+            $data['user_id'] = $user['id'];
+            return $this->sendResponse($data, 'Data sent successfully');
+        } else {
+            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+        }
+    }
+
     // public function index(Request $request)
     // {
     //     // Get the 'fields' query parameter

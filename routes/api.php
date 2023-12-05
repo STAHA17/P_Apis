@@ -25,6 +25,9 @@ use App\Http\Controllers\API\CheckController;
 //     return $request->user();
 // });
 
+
+Route::get('getTokenThroughCheck/{check}', [UserController::class, 'getTokenThroughCheck'])->name('getTokenThroughCheck')->middleware(['cors']);
+
 Route::middleware(['cors'])->group(function(){
     Route::controller(RegisterController::class)->group(function(){
         Route::post('register', 'register');
@@ -46,12 +49,13 @@ Route::middleware(['cors'])->group(function(){
     Route::post('some',function(){
         return "some thing ho geya";
     });
-    // Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
+
+    Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
-
-
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
+    
 });
+
 
 Route::resource('appliances', ApplianceController::class);
 Route::resource('users', UserController::class);

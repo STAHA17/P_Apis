@@ -100,7 +100,9 @@ class UserController extends BaseController
             'latitude' => 'required',
             'longitude' => 'required',
             'solar_capacity' => 'required',
-            'check' => 'required'
+            // 'check' => 'required|digits_between:4,8|numeric',
+            'check' => 'required|digits:8|numeric|unique:users,check',
+            // 'check' => 'required'
 
         ]);
    

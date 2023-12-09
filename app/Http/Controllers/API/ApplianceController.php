@@ -24,16 +24,6 @@ class ApplianceController extends BaseController
         return $this->sendResponse(ApplianceResource::collection($appliances), 'Appliance retrieved successfully.');
     }
 
-    // public function index1(Request $request)
-    // {
-    //     $fields = $request->query('fields', '*');
-    //     $appliances = Appliance::select(explode(',', $fields))->get();
-
-    //     return response()->json($appliances);
-    //     return $this->sendResponse(ApplianceResource::collection($appliances), 'Selected Appliance retrieved successfully.');
-
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -46,11 +36,9 @@ class ApplianceController extends BaseController
    
         $validator = Validator::make($input, [
             'a_name' => 'required',
-            'a_category' => 'required',
             'a_watt' => 'required | min:1 | max: 3500',
             'a_consumption' => 'required',
             'device' => 'required'
-            // 'user_id' => 'required'
         ]);
    
         if($validator->fails()){
@@ -68,16 +56,6 @@ class ApplianceController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     $appliance = Appliance::find($id);
-  
-    //     if (is_null($appliance)) {
-    //         return $this->sendError('Appliance not found.');
-    //     }
-   
-    //     return $this->sendResponse(new ApplianceResource($appliance), 'Appliance retrieved successfully.');
-    // }
         public function show($id)
         {
             // Assuming you have a relationship between models, for example, a User model having many appliances
@@ -105,11 +83,10 @@ class ApplianceController extends BaseController
      */
     public function update(Request $request, Appliance $appliance)
     {
-        $input = $request->only(['a_name', 'a_category', 'a_watt', 'a_consumption', 'device']);
+        $input = $request->only(['a_name', 'a_watt', 'a_consumption', 'device']);
 
         $validator = Validator::make($input, [
             'a_name' => 'sometimes|required',
-            'a_category' => 'sometimes|required',
             'a_watt' => 'sometimes|required',
             'a_consumption' => 'sometimes|required',
             'device' => 'sometimes|required',
@@ -133,34 +110,7 @@ class ApplianceController extends BaseController
             return $this->sendError('Error updating appliance.', ['message' => $e->getMessage()]);
         }
     }
-
-    // public function update(Request $request, Appliance $appliance)
-    // {
-    //     $input = $request->all();
-   
-    //     $validator = Validator::make($input, [
-    //         'a_name' => 'required',
-    //         'a_category' => 'required',
-    //         'a_watt' => 'required',
-    //         'a_consumption' => 'required',
-    //         'device' => 'required',
-    //     ]);
-   
-    //     if($validator->fails()){
-    //         return $this->sendError('Validation Error.', $validator->errors());       
-    //     }
-   
-    //     $appliance->a_name = $input['a_name'];
-    //     $appliance->a_category = $input['a_category'];
-    //     $appliance->a_watt = $input['a_watt'];
-    //     $appliance->a_consumption = $input['a_consumption'];
-    //     $appliance->device = $input['device'];
-
-    //     $appliance->save();
-   
-    //     return $this->sendResponse(new ApplianceResource($appliance), 'Appliance updated successfully.');
-    // }
-   
+  
     /**
      * Remove the specified resource from storage.
      *

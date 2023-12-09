@@ -12,8 +12,5 @@ class Scheduling extends Model
     protected $fillable = [
         'start_time',
         'end_time',
-        'slot_1',
-        'slot_2',
-        'slot_3',
         'user_id',];
 }

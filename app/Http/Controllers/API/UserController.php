@@ -17,13 +17,6 @@ class UserController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    //  public function __construct()
-    //  {
-    //      // Apply the 'auth:api' middleware to all methods except 'index' and 'show'
-    //      $this->middleware('auth:api')->except(['index', 'show']);
-    //  }
-
-
     // public function GetUserLatLong($id) {
     //     $user=User::Find($id)->first(['latitude', 'longitude','check']);
     //     return $this->sendResponse($user, "user data");
@@ -38,8 +31,6 @@ class UserController extends BaseController
         $user = User::Where('check',$check)->first('id');
         return $this->sendResponse($user, "user data");
     }
-
-
 
     public function getUserIdEmail() {
         $user = User::Where('id', Auth::id())->first(['id','email']);
@@ -64,25 +55,6 @@ class UserController extends BaseController
         }
     }
 
-    // public function index(Request $request)
-    // {
-    //     // Get the 'fields' query parameter
-    //     $fields = $request->query('fields', '*');
-
-    //     // Convert the fields string to an array
-    //     $fieldsArray = explode(',', $fields);
-
-    //     // Check if all fields are requested
-    //     if ($fieldsArray === '*') {
-    //         $users = User::all();
-    //     } else {
-    //         // Fetch specific fields if requested
-    //         $users = User::select($fieldsArray)->get();
-    //     }
-
-    //     return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.');
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -100,10 +72,7 @@ class UserController extends BaseController
             'latitude' => 'required',
             'longitude' => 'required',
             'solar_capacity' => 'required',
-            // 'check' => 'required|digits_between:4,8|numeric',
             'check' => 'required|digits:8|numeric|unique:users,check',
-            // 'check' => 'required'
-
         ]);
    
         if($validator->fails()){
@@ -171,37 +140,6 @@ class UserController extends BaseController
             return $this->sendError('Error updating user.', ['message' => $e->getMessage()]);
         }
     }
-
-    // public function update(Request $request, User $user)
-    // {
-    //     $input = $request->all();
-   
-    //     $validator = Validator::make($input, [
-    //         'name' => 'required',
-    //         'email' => 'required',
-    //         'password' => 'required',
-    //         'latitude' => 'required',
-    //         'longitude' => 'required',
-    //         'solar_capacity' => 'required',
-    //         'status' => 'required'
-    //     ]);
-   
-    //     if($validator->fails()){
-    //         return $this->sendError('Validation Error.', $validator->errors());       
-    //     }
-   
-    //     $user->name = $input['name'];
-    //     $user->email = $input['email'];
-    //     $user->password = $input['password'];
-    //     $user->latitude = $input['latitude'];
-    //     $user->longitude = $input['longitude'];
-    //     $user->solar_capacity = $input['solar_capacity'];
-    //     $user->status = $input['status'];
-
-    //     $user->save();
-   
-    //     return $this->sendResponse(new UserResource($user), 'User updated successfully.');
-    // }
    
     /**
      * Remove the specified resource from storage.

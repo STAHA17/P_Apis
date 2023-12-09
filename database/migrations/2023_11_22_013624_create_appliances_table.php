@@ -16,7 +16,6 @@ class CreateAppliancesTable extends Migration
         Schema::create('appliances', function (Blueprint $table) {
             $table->id();
             $table->string('a_name');
-            $table->string('a_category');
             $table->integer('a_watt');
             $table->integer('a_consumption');
             $table->string('device');

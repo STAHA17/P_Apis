@@ -9,6 +9,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\SchedulingController;
 
 use App\Http\Controllers\API\CheckController;
+use App\Http\Controllers\API\GAController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,10 @@ Route::middleware(['cors'])->group(function(){
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
     
+
+    // Route::get('UsersForGA/{id}', [GAController::class, 'UsersForGA'])->name('UsersForGA')->middleware(['cors']);
+    // Route::get('AppliancesForGA/{id}', [GAController::class, 'AppliancesForGA'])->name('AppliancesForGA')->middleware(['cors']);
+
 });
 
 

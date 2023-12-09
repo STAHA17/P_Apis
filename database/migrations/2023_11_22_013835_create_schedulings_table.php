@@ -17,9 +17,6 @@ class CreateSchedulingsTable extends Migration
             $table->id();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
-            $table->string('slot_1')->nullable();
-            $table->string('slot_2')->nullable();
-            $table->string('slot_3')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

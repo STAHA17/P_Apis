@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Auth;
 
 class GAController extends Controller
 {
-    public function user($user_id) {
+    public function UsersForGA($user_id) {
         Auth::user()->latitude;
-        $user = User::Where('id',$user_id)->first('id','latitude', 'longitude', 'check');
+        $user_id = User::Where('id',$user_id)->first('id','latitude', 'longitude', 'check');
 
-        $users = User::all()->pluck('id','latitude','longitude', 'check');
+        $user_id = User::all()->pluck('id','latitude','longitude', 'check');
     }
 
-    public function appliance($appliance_id) {
+    public function AppliancesForGA($appliance_id) {
         Auth::appliance()->a_watt;
-        $appliance = Appliance::Where('id',$appliance_id)->first('name', 'a_watt', 'a_consumption','user_id');
+        $appliance_id = Appliance::Where('id',$appliance_id)->first('name', 'a_watt', 'a_consumption','user_id');
 
-        $appliance = Appliance::all()->pluck('name', 'a_watt', 'a_consumption','user_id');
+        $appliance_id = Appliance::all()->pluck('name', 'a_watt', 'a_consumption','user_id');
     }
 
 }

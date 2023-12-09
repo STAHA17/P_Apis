@@ -19,7 +19,6 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password, 
-            //U_location,Login,Rights & Status isn't insert (Problem) 
             'latitude' => $this -> latitude,
             'longitude' => $this -> longitude,
             'solar_capacity' => $this -> solar_capacity,

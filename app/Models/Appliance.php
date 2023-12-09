@@ -14,7 +14,11 @@ class Appliance extends Model
      * @var array
      */
     protected $fillable = [
-        'a_name', 'a_category','a_watt','a_consumption','device','user_id'
+        'a_name',
+        'a_watt',
+        'a_consumption',
+        'device',
+        'user_id'
     ];
 
     //define user-appliance relationship in model

@@ -19,7 +19,9 @@ class ApplianceResource extends JsonResource
             'a_name' => $this->a_name,
             'a_watt' => $this->a_watt,
             'a_consumption' => $this->a_consumption,
-            'device'=> $this-> device,
+            'a_status'=> $this-> a_status,
+            'a_IP'=> $this->a_IP,
+            'a_MAC'=> $this->a_MAC,
             'user_id' => $this->user_id,
 
             'created_at' => $this->created_at->format('d/m/Y'),

@@ -119,7 +119,7 @@ class UserController extends BaseController
             'latitude' => 'sometimes|required',
             'longitude' => 'sometimes|required',
             'solar_capacity' => 'sometimes|required',
-            'check' => 'sometimes|required'
+            'check' => 'sometimes|required|digits:8|numeric|unique:users,check'
         ]);
 
         if ($validator->fails()) {

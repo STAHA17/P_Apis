@@ -18,7 +18,9 @@ class CreateAppliancesTable extends Migration
             $table->string('a_name');
             $table->integer('a_watt');
             $table->integer('a_consumption');
-            $table->string('device');
+            $table->string('a_status');
+            $table->string('a_IP');
+            $table->string('a_MAC');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

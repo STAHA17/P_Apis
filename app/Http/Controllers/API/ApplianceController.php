@@ -38,7 +38,9 @@ class ApplianceController extends BaseController
             'a_name' => 'required',
             'a_watt' => 'required | min:1 | max: 3500',
             'a_consumption' => 'required',
-            'device' => 'required'
+            'a_status' => 'required',
+            'a_IP' => 'required',
+            'a_MAC' => 'required',
         ]);
    
         if($validator->fails()){
@@ -83,13 +85,15 @@ class ApplianceController extends BaseController
      */
     public function update(Request $request, Appliance $appliance)
     {
-        $input = $request->only(['a_name', 'a_watt', 'a_consumption', 'device']);
+        $input = $request->only(['a_name', 'a_watt', 'a_consumption', 'a_status','a_IP','a_MAC']);
 
         $validator = Validator::make($input, [
             'a_name' => 'sometimes|required',
             'a_watt' => 'sometimes|required',
             'a_consumption' => 'sometimes|required',
-            'device' => 'sometimes|required',
+            'a_status' => 'sometimes|required',
+            'a_IP' => 'sometimes|required',
+            'a_MAC' => 'sometimes|required',
         ]);
 
         if ($validator->fails()) {

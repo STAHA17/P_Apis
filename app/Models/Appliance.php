@@ -17,7 +17,9 @@ class Appliance extends Model
         'a_name',
         'a_watt',
         'a_consumption',
-        'device',
+        'a_status',
+        'a_IP',
+        'a_MAC',
         'user_id'
     ];
 

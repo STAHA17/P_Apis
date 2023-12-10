@@ -47,28 +47,28 @@ Route::middleware(['cors'])->group(function(){
     Route::middleware('auth:sanctum')->group( function () {
         Route::resource('scheduling', SchedulingController::class);
     });
+
+    //This for testing
     Route::post('some',function(){
         return "some thing ho geya";
     });
 
+    //These Two Rutes for GA
+    Route::get('getUserDetailsThroughId/{id}', [GAController::class,'getUserDetailsThroughId'])->name("getUserDetailsThroughId");
+    Route::get('showUserAppliances/{id}', [GAController::class,'showUserAppliances'])->name("showUserAppliances");
+    Route::get('getUserDetailsAndAppliances/{id}', [GAController::class,'getUserDetailsAndAppliances'])->name("getUserDetailsAndAppliances");
+    
+    
+    //These Routes for Retreve Data Function
     Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
-    
-
-    // Route::get('UsersForGA/{id}', [GAController::class, 'UsersForGA'])->name('UsersForGA')->middleware(['cors']);
-    // Route::get('AppliancesForGA/{id}', [GAController::class, 'AppliancesForGA'])->name('AppliancesForGA')->middleware(['cors']);
-
 });
 
-
+//These Routes For testing data of APIs, Open Routes 
 Route::resource('appliances', ApplianceController::class);
 Route::resource('users', UserController::class);
 Route::resource('schedulings', SchedulingController::class);
 
-//Route::resource('checks', CheckController::class);
-
-// Route::get('/api/users', 'UserController@index1');
-// Route::get('/api/appliances', 'ApplianceController@index1');
 
 

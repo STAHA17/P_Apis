@@ -17,8 +17,12 @@ class CreateSchedulingsTable extends Migration
             $table->id();
             $table->string('start_time')->nullable();
             $table->string('end_time')->nullable();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            // $table->unsignedBigInteger('user_id')->nullable();
+            // $table->foreign('user_id')->references('id')->on('users');
+
+            $table->unsignedBigInteger('appliance_id')->nullable();
+            $table->foreign('appliance_id')->references('id')->on('appliances');
+
             $table->timestamps();
 
         });

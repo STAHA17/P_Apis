@@ -12,5 +12,7 @@ class Scheduling extends Model
     protected $fillable = [
         'start_time',
         'end_time',
-        'user_id',];
+        // 'user_id',
+        'appliance_id',
+    ];
 }

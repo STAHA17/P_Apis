@@ -1,49 +1,4 @@
 <?php
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Appliance,Scheduling,User;
-use Validator;
-use App\Http\Resources\ApplianceResource;
-
-// public function start(){
-//     return null;
-// }
-
-function DataFetchAlgorithm($appliancePower, $applianceConsumption) {
-    // Replace these placeholders with your actual API endpoints
-    $apiEndpoint1 = "http://localhost:8000/api/appliance/power?appliancePower=" . $appliancePower;
-    $apiEndpoint2 = "http://localhost:8000/api/appliance/consumption?applianceConsumption=" . $applianceConsumption;
-
-    // Fetch data from the first API (Appliance power) and decode the JSON into an array
-    $dataFromApi1 = json_decode(file_get_contents($apiEndpoint1), true);
-
-    // Fetch data from the second API (Appliance consumption) and decode the JSON into an array
-    $dataFromApi2 = json_decode(file_get_contents($apiEndpoint2), true);
-
-    // Apply your algorithm logic to the fetched data
-    $result = yourAlgorithmLogic($dataFromApi1, $dataFromApi2);
-
-    return $result;
-}
-
-// Replace this function with your actual algorithm logic
-function yourAlgorithmLogic($data1, $data2) {
-    // Perform your algorithm operations here
-    // This is just a placeholder, replace it with your actual logic
-    $result = "Processed Appliance power data: " . print_r($data1, true) . " and processed Appliance consumption data: " . print_r($data2, true);
-    return $result;
-}
-
-// Example usage
-$appliancePower = "exampleAppliancePower";
-$applianceConsumption = "exampleApplianceConsumption";
-
-$result = DataFetchAlgorithm($appliancePower, $applianceConsumption);
-echo $result;
-            //$population = initializePopulation($populationSize, $applianceCount, $solarPowerForecast);
-                //------------------**************----------------//
-
 // Genetic Algorithm Parameters
 $populationSize = 1000;
 $generationCount = 200;
@@ -64,6 +19,11 @@ for($i=0; $i<count($appliancePower); $i++ )
 }
 
 // Solar Power Forecast (example values)
+//https://api.solcast.com.au/data/forecast/rooftop_pv_power?latitude=-33.856784&longitude=151.215297&output_parameters=pv_power_rooftop&capacity=1&format=json&api_key=NhgolMHvPm3FfOawxnp771xMTjd0MIXx
+
+//https://api.solcast.com.au/data/forecast/rooftop_pv_power?latitude=-33.856784&longitude=151.215297&period=PT15M&output_parameters=pv_power_rooftop&capacity=1&format=json&api_key=NhgolMHvPm3FfOawxnp771xMTjd0MIXx
+
+
 $solarPowerForecast = [
     0, 0, 0, 0,  // Midnight
     0, 0, 0, 0,  // 1:00 AM

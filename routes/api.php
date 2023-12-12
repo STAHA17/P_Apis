@@ -10,6 +10,7 @@ use App\Http\Controllers\API\SchedulingController;
 
 use App\Http\Controllers\API\CheckController;
 use App\Http\Controllers\API\GAController;
+use App\Http\Controllers\API\GenaticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,9 +59,10 @@ Route::middleware(['cors'])->group(function(){
     Route::get('showUserAppliances/{id}', [GAController::class,'showUserAppliances'])->name("showUserAppliances");
     Route::get('getUserDetailsAndAppliances/{id}', [GAController::class,'getUserDetailsAndAppliances'])->name("getUserDetailsAndAppliances");
     
+    Route::get('showUserAppliancesX/{id}', [GenaticController::class,'showUserAppliancesX'])->name("showUserAppliancesX");
     
     //These Routes for Retreve Data Function
-    Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
+    //Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
 });

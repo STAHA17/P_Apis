@@ -18,7 +18,8 @@ class SchedulingResource extends JsonResource
             'id' => $this->id,
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
-            // 'user_id' => $this->user_id,
+            'date' => $this->date,
+            'user_id' => $this->user_id,
             'appliance_id' => $this->appliance_id,
             
             'created_at' => $this->created_at->format('d/m/Y'),

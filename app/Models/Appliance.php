@@ -28,4 +28,11 @@ class Appliance extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    //define appliance-scheduling relationship in model
+    public function appliances()
+    {
+        return $this->hasMany(Scheduling::class);
+    }
+    
 }

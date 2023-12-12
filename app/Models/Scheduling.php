@@ -12,7 +12,19 @@ class Scheduling extends Model
     protected $fillable = [
         'start_time',
         'end_time',
-        // 'user_id',
+        'date',
+        'user_id',
         'appliance_id',
     ];
+
+
+    //define user-scheduling relationship in model
+    // public function user()
+    // {
+    //     return $this->belongsTo(Scheduling::class);
+    // }
+    public function appliance()
+    {
+        return $this->belongsTo(Appliance::class, 'appliance_id');
+    }
 }

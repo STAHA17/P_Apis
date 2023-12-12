@@ -9,7 +9,8 @@ use App\Models\User;
 
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\ApplianceResource;
-   
+use Illuminate\Support\Facades\Auth;
+
 class ApplianceController extends BaseController
 {
     /**
@@ -38,17 +39,18 @@ class ApplianceController extends BaseController
             'a_name' => 'required',
             'a_watt' => 'required | min:1 | max: 3500',
             'a_consumption' => 'required',
-            'a_status' => 'required',
-            'a_IP' => 'required',
-            'a_MAC' => 'required',
+            'a_status' => 'sometimes|required',
+            'a_IP' => 'sometimes|required',
+            'a_MAC' => 'sometimes|required',
         ]);
    
         if($validator->fails()){
             return $this->sendError('Validation Error.', $validator->errors());       
         }
-   
+        $user = Auth::user();
         $appliance = Appliance::create($input);
-   
+        $appliance->user_id = $user->id;
+        $appliance->save();
         return $this->sendResponse(new ApplianceResource($appliance), 'Appliance created successfully.');
     } 
    
@@ -61,7 +63,7 @@ class ApplianceController extends BaseController
         public function show($id)
         {
             // Assuming you have a relationship between models, for example, a User model having many appliances
-            $user = User::find($id);
+            $user = Auth::user();
 
             if (is_null($user)) {
                 return $this->sendError('User not found.');

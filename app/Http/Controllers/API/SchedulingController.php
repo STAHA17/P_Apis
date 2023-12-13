@@ -28,25 +28,6 @@ class SchedulingController extends BaseController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
-
-    // public function store(Request $request)
-    // {
-    //     $input = $request->all();
-   
-    //     $validator = Validator::make($input, [
-    //         'start_time' => 'required',
-    //         'end_time' => 'required',
-    //     ]);
-   
-    //     if($validator->fails()){
-    //         return $this->sendError('Validation Error.', $validator->errors());       
-    //     }
-
-    //     $scheduling = Scheduling::create($input);
-   
-    //     return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling Schedule successfully.');
-    // } 
 
     public function store(Request $request)
     {
@@ -78,16 +59,6 @@ class SchedulingController extends BaseController
      * @param  string  $date
      * @return \Illuminate\Http\Response
      */
-    // public function show($id)
-    // {
-    //     $scheduling = Scheduling::find($id);
-  
-    //     if (is_null($scheduling)) {
-    //         return $this->sendError('Not Scheduling yet.');
-    //     }
-   
-    //     return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling Schedule retrieved successfully.');
-    // }
 
     public function show($id)
     {
@@ -107,7 +78,20 @@ class SchedulingController extends BaseController
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Scheduling Schedule retrieved successfully.');
     }
 
-    public function show1($id, $date)
+    //for Hardware
+    public function show1($date)
+    {
+        $schedules = Scheduling::whereDate('date', $date)->get();
+
+        if ($schedules->isEmpty()) {
+            return $this->sendError('No schedules found for the specified date.');
+        }
+
+        return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
+    }
+
+    //For users
+    public function show2($id, $date)
     {
         $schedules = Scheduling::where('user_id', $id)
                             ->whereDate('date', $date)
@@ -125,32 +109,7 @@ class SchedulingController extends BaseController
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
     }
 
-    // public function show($id)
-    // {
-    //     $scheduling = Scheduling::with('appliance')->find($id);
-
-    //     if (is_null($scheduling)) {
-    //         return $this->sendError('Scheduling not found.');
-    //     }
-
-    //     $schedulingData = [
-    //         'scheduling_id' => $scheduling->id,
-    //         'start_time'    => $scheduling->start_time,
-    //         'end_time'      => $scheduling->end_time,
-    //         'appliance'     => [
-    //             'appliance_id'    => $scheduling->appliance->id,
-    //             'a_name'          => $scheduling->appliance->a_name,
-    //             'a_watt'          => $scheduling->appliance->a_watt,
-    //             'a_consumption'   => $scheduling->appliance->a_consumption,
-    //             'user_id'          => $scheduling->appliance->user_id,
-    //             // Add more appliance attributes as needed
-    //         ],
-    //     ];
-
-    //     return $this->sendResponse($schedulingData, 'Scheduling Schedule retrieved successfully.');
-    // }
-
-    
+   
     /**
      * Update the specified resource in storage.
      *

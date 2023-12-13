@@ -32,27 +32,3 @@ class CheckController extends BaseController
         ]);
     }
 }
-
-
-// class CheckController extends Controller
-// {
-//     public function checkCode(Request $request)
-//     {
-//         $request->validate([
-//             'code' => 'required|string', // Assuming the code is sent in the request
-//         ]);
-
-//         $code = $request->input('code');
-
-//         // Find user(s) with the provided code
-//         $users = User::where('check_code', $code)->get();
-
-//         if ($users->isEmpty()) {
-//             return response()->json(['error' => 'No user found with the provided code'], 404);
-//         }
-
-//         // If a user is found, you can return user data or generate an authentication token
-//         // For example, returning user data:
-//         return response()->json(['users' => $users]);
-//     }
-// }

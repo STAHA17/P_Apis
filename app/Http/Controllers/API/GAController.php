@@ -140,48 +140,5 @@ class GAController extends Controller
 
         // Assuming this is in your controller or service
         config(['app.appliance_power' => $appliancePower]);
-
     }
-    
-
-
-    // public function showUserAppliances($id)
-    //     {
-    //         $user = User::find($id);
-
-    //         if (is_null($user)) {
-    //             return $this->sendError('User not found.');
-    //         }
-            
-    //         $appliancesData = [];
-            
-    //         foreach ($user->appliances as $appliance) {
-    //             $appliancesData[] = [
-    //                 'appliance_id'  => $appliance->id,
-    //                 'a_name'        => $appliance->a_name,
-    //                 'a_watt'        => $appliance->a_watt,
-    //                 'a_consumption' => $appliance->a_consumption,
-    //                 'user_id'       => $appliance->user_id,
-    //             ];
-    //         }
-            
-    //         if (empty($appliancesData)) {
-    //             return $this->sendError('No appliances found for the specified user ID.');
-    //         }
-                        
-    //         // Extracting 'a_watt' and 'a_consumption' from all appliances into separate arrays
-    //         $allWatts = array_column($appliancesData, 'a_watt');
-    //         $allConsumptions = array_column($appliancesData, 'a_consumption');
-    //         $applianceIds = array_column($appliancesData, 'appliance_id'); // Include 'appliance_id'
-            
-    //         // Create a summary array containing all 'a_watt' and 'a_consumption' values
-    //         $summaryData = [
-    //             'appliance_ids'    => $applianceIds, // Include 'appliance_id'
-    //             'all_watts'        => $allWatts,
-    //             'all_consumptions' => $allConsumptions,
-    //         ];
-    //         //return $this->sendResponse($appliancesData, 'Appliances retrieved successfully.');
-    //         return $this->sendResponse($summaryData, 'Appliance data retrieved successfully.');            
-    // }
-
 }

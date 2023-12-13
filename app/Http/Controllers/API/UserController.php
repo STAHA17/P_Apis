@@ -17,11 +17,6 @@ class UserController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    // public function GetUserLatLong($id) {
-    //     $user=User::Find($id)->first(['latitude', 'longitude','check']);
-    //     return $this->sendResponse($user, "user data");
-    // }
-
     public function getUserCheckById($id) {
         $user = User::Where('id',$id)->first('check');
         return $this->sendResponse($user, "user data");

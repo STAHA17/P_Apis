@@ -62,17 +62,16 @@ Route::middleware(['cors'])->group(function(){
     Route::get('showUserAppliancesX/{id}', [GenaticController::class,'showUserAppliancesX'])->name("showUserAppliancesX");
     
     //These Routes for Retreve Data Function
-    //Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
-    Route::get('/schedules/show1/{id}/{date}', [SchedulingController::class, 'show1']);
+    Route::get('/schedules/show1/{date}', [SchedulingController::class, 'show1']);
+    Route::get('/schedules/show2/{id}/{date}', [SchedulingController::class, 'show2']);
 });
 
 //These Routes For testing data of APIs, Open Routes 
 Route::resource('appliances', ApplianceController::class);
 Route::resource('users', UserController::class);
 Route::resource('schedulings', SchedulingController::class);
-//Route::get('schedulings/{id}/{date}', UserController::class)->name('users.showWithDate');
 
 
 

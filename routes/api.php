@@ -65,12 +65,14 @@ Route::middleware(['cors'])->group(function(){
     //Route::get('getuserbyid', "UserController@GetUserLatLong")->name("GetUserLatLong");
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
+    Route::get('/schedules/show1/{id}/{date}', [SchedulingController::class, 'show1']);
 });
 
 //These Routes For testing data of APIs, Open Routes 
 Route::resource('appliances', ApplianceController::class);
 Route::resource('users', UserController::class);
 Route::resource('schedulings', SchedulingController::class);
+//Route::get('schedulings/{id}/{date}', UserController::class)->name('users.showWithDate');
 
 
 

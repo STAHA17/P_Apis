@@ -75,6 +75,7 @@ class SchedulingController extends BaseController
      * Display the specified resource.
      *
      * @param  int  $id
+     * @param  string  $date
      * @return \Illuminate\Http\Response
      */
     // public function show($id)
@@ -90,29 +91,39 @@ class SchedulingController extends BaseController
 
     public function show($id)
     {
-        $schedules = Scheduling::where('appliance_id', $id)->get();
+        $schedules = Scheduling::where('user_id', $id)->get();
 
         if ($schedules->isEmpty()) {
-            return $this->sendError('No schedules found for the specified appliance.');
+            return $this->sendError('No schedules found for the specified user.');
+        }
+
+        // Check if all schedules belong to the same user ID
+        foreach ($schedules as $schedule) {
+            if ($schedule->user_id != $id) {
+                return $this->sendError('Invalid request. Schedules do not belong to the specified User ID.');
+            }
         }
 
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Scheduling Schedule retrieved successfully.');
     }
 
-    // public function show($applianceId, $date)
-    // {
-    //     $schedules = Scheduling::where('appliance_id', $applianceId)
-    //                         ->whereDate('schedule_date', $date)
-    //                         ->get();
+    public function show1($id, $date)
+    {
+        $schedules = Scheduling::where('user_id', $id)
+                            ->whereDate('date', $date)
+                            ->get();
 
-    //     if ($schedules->isEmpty()) {
-    //         return $this->sendError('No schedules found for the specified appliance and date.');
-    //     }
-
-    //     return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
-    // }
-
-
+        if ($schedules->isEmpty()) {
+            return $this->sendError('No schedules found for the specified appliance and date.');
+        }
+        //Check if all schedules belong to the same user ID
+                foreach ($schedules as $schedule) {
+                    if ($schedule->user_id != $id) {
+                        return $this->sendError('Invalid request. Schedules do not belong to the specified User ID.');
+                    }
+                }
+        return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
+    }
 
     // public function show($id)
     // {

@@ -58,6 +58,10 @@ class SchedulingController extends BaseController
 
         // Loop through each minute and create entries
         while ($startTime->lessThan($endTime)) {
+
+            // $endTimeSlot = clone $startTime; // Create a clone to avoid modifying the original Carbon instance
+            // $endTimeSlot->addMinutes(1);
+
             $timeSlots[] = [
                 'start_time' => $startTime->format('H:i:s'),
                 'end_time' => $startTime->addMinute()->format('H:i:s'),
@@ -65,6 +69,8 @@ class SchedulingController extends BaseController
                 'user_id' => $input['user_id'], // Add user_id to each time slot
                 'appliance_id' => $input['appliance_id'], // Add appliance_id to each time slot
             ];
+
+            // $startTime->addMinutes(2); // Add 2 minutes to create a 1-minute gap
         }
 
         // Create scheduling entries for each time slot
@@ -130,7 +136,7 @@ class SchedulingController extends BaseController
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Scheduling Schedule retrieved successfully.');
     }
 
-    //for Hardware
+    //for Hardware 
     public function show1($date)
     {
         $schedules = Scheduling::whereDate('date', $date)->get();
@@ -142,24 +148,51 @@ class SchedulingController extends BaseController
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
     }
 
+
     //For users
-    public function show2($id, $date)
+    //parameters : user_id,appliance_id check date with today date
+    public function show2($id, $appliance_id)
     {
+        // Set the timezone
+        date_default_timezone_set('Asia/Karachi');
+        $currentDate = date('Y-m-d');
+
         $schedules = Scheduling::where('user_id', $id)
-                            ->whereDate('date', $date)
-                            ->get();
+            ->where('appliance_id', $appliance_id)
+            ->whereDate('date', $currentDate)
+            ->get();
 
         if ($schedules->isEmpty()) {
-            return $this->sendError('No schedules found for the specified appliance and date.');
+            return $this->sendError('No schedules found for the specified user, appliance, and date.');
         }
-        //Check if all schedules belong to the same user ID
-                foreach ($schedules as $schedule) {
-                    if ($schedule->user_id != $id) {
-                        return $this->sendError('Invalid request. Schedules do not belong to the specified User ID.');
-                    }
-                }
+
+        // Check if all schedules belong to the specified user ID and appliance ID
+        foreach ($schedules as $schedule) {
+            if ($schedule->user_id != $id || $schedule->appliance_id != $appliance_id) {
+                return $this->sendError('Invalid request. Schedules do not belong to the specified User ID and Appliance ID.');
+            }
+        }
+
         return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
     }
+
+    // public function show2($id, $date)
+    // {
+    //     $schedules = Scheduling::where('user_id', $id)
+    //                         ->whereDate('date', $date)
+    //                         ->get();
+
+    //     if ($schedules->isEmpty()) {
+    //         return $this->sendError('No schedules found for the specified appliance and date.');
+    //     }
+    //     //Check if all schedules belong to the same user ID
+    //             foreach ($schedules as $schedule) {
+    //                 if ($schedule->user_id != $id) {
+    //                     return $this->sendError('Invalid request. Schedules do not belong to the specified User ID.');
+    //                 }
+    //             }
+    //     return $this->sendResponse(SchedulingResource::collection($schedules), 'Schedules retrieved successfully.');
+    // }
 
    
     /**

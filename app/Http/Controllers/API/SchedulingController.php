@@ -29,7 +29,53 @@ class SchedulingController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
-    //  public function store(Request $request)
+     public function store(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'start_time' => 'required|date_format:H:i:s',
+            'end_time' => 'required|date_format:H:i:s',
+            'date' => 'required|date_format:Y-m-d',
+            'user_id' => 'required|exists:users,id', // Add validation for user_id
+            'appliance_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $startTime = Carbon::createFromFormat('H:i:s', $input['start_time']);
+        $endTime = Carbon::createFromFormat('H:i:s', $input['end_time']);
+
+        // Validate that start_time is before end_time
+        if ($startTime->greaterThanOrEqualTo($endTime)) {
+            return $this->sendError('Validation Error.', 'start_time must be before end_time.');
+        }
+
+        // Create an array to store individual time slots
+        $timeSlots = [];
+
+        // Loop through each minute and create entries
+        while ($startTime->lessThan($endTime)) {
+            $timeSlots[] = [
+                'start_time' => $startTime->format('H:i:s'),
+                'end_time' => $startTime->addMinute()->format('H:i:s'),
+                'date' => $input['date'],
+                'user_id' => $input['user_id'], // Add user_id to each time slot
+                'appliance_id' => $input['appliance_id'], // Add appliance_id to each time slot
+            ];
+        }
+
+        // Create scheduling entries for each time slot
+        foreach ($timeSlots as $timeSlot) {
+            Scheduling::create($timeSlot);
+        }
+
+        return $this->sendResponse([], $timeSlot, 'Scheduling slots created successfully.');
+    }
+
+    // public function store(Request $request)
     // {
     //     $input = $request->all();
 
@@ -43,56 +89,14 @@ class SchedulingController extends BaseController
     //         return $this->sendError('Validation Error.', $validator->errors());
     //     }
 
-    //     $startTime = Carbon::createFromFormat('H:i:s', $input['start_time']);
-    //     $endTime = Carbon::createFromFormat('H:i:s', $input['end_time']);
+    //     // Convert input strings to Carbon instances
+    //     $input['start_time'] = Carbon::createFromFormat('H:i:s', $input['start_time']);
+    //     $input['end_time'] = Carbon::createFromFormat('H:i:s', $input['end_time']);
 
-    //     // Validate that start_time is before end_time
-    //     if ($startTime->greaterThanOrEqualTo($endTime)) {
-    //         return $this->sendError('Validation Error.', 'start_time must be before end_time.');
-    //     }
+    //     $scheduling = Scheduling::create($input);
 
-    //     // Create an array to store individual time slots
-    //     $timeSlots = [];
-
-    //     // Loop through each minute and create entries
-    //     while ($startTime->lessThan($endTime)) {
-    //         $timeSlots[] = [
-    //             'start_time' => $startTime->format('H:i:s'),
-    //             'end_time' => $startTime->addMinute()->format('H:i:s'),
-    //             'date' => $input['date'],
-    //         ];
-    //     }
-
-    //     // Create scheduling entries for each time slot
-    //     foreach ($timeSlots as $timeSlot) {
-    //         Scheduling::create($timeSlot);
-    //     }
-
-    //     return $this->sendResponse([], 'Scheduling slots created successfully.');
+    //     return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling Schedule successfully.');
     // }
-
-    public function store(Request $request)
-    {
-        $input = $request->all();
-
-        $validator = Validator::make($input, [
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'required|date_format:H:i:s',
-            'date' => 'required|date_format:Y-m-d',
-        ]);
-
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
-        // Convert input strings to Carbon instances
-        $input['start_time'] = Carbon::createFromFormat('H:i:s', $input['start_time']);
-        $input['end_time'] = Carbon::createFromFormat('H:i:s', $input['end_time']);
-
-        $scheduling = Scheduling::create($input);
-
-        return $this->sendResponse(new SchedulingResource($scheduling), 'Scheduling Schedule successfully.');
-    }
 
     /**
      * Display the specified resource.

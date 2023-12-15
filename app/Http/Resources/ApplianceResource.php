@@ -24,8 +24,8 @@ class ApplianceResource extends JsonResource
             'a_MAC'=> $this->a_MAC,
             'user_id' => $this->user_id,
 
-            'created_at' => $this->created_at->format('d/m/Y'),
-            'updated_at' => $this->updated_at->format('d/m/Y'),
+            // 'created_at' => $this->created_at->format('d/m/Y'),
+            // 'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
     }
 }

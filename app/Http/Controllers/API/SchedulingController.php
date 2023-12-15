@@ -108,7 +108,13 @@ class SchedulingController extends BaseController
 
     public function show($id)
     {
-        $schedules = Scheduling::where('user_id', $id)->get();
+        date_default_timezone_set('Australia/Sydney');
+        // Get the current date
+        $currentDate = date('Y-m-d');
+
+        $schedules = Scheduling::where('user_id', $id)
+                            ->whereDate('date', $currentDate)
+                            ->get();
 
         if ($schedules->isEmpty()) {
             return $this->sendError('No schedules found for the specified user.');

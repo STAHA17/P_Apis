@@ -59,7 +59,7 @@ class UserController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-   
+
         $validator = Validator::make($input, [
             'name' => 'required',
             'email' => 'required',
@@ -67,17 +67,42 @@ class UserController extends BaseController
             'latitude' => 'required',
             'longitude' => 'required',
             'solar_capacity' => 'required',
-            'check' => 'required|digits:8|numeric|unique:users,check',
         ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
         }
 
+        // Generate a random 8-digit number for the 'check' field
+        $input['check'] = mt_rand(10000000, 99999999);
+
         $user = User::create($input);
-   
+
         return $this->sendResponse(new UserResource($user), 'User created successfully.');
-    } 
+    }
+
+    // public function store(Request $request)
+    // {
+    //     $input = $request->all();
+   
+    //     $validator = Validator::make($input, [
+    //         'name' => 'required',
+    //         'email' => 'required',
+    //         'password' => 'required',
+    //         'latitude' => 'required',
+    //         'longitude' => 'required',
+    //         'solar_capacity' => 'required',
+    //         'check' => 'required|digits:8|numeric|unique:users,check',
+    //     ]);
+   
+    //     if($validator->fails()){
+    //         return $this->sendError('Validation Error.', $validator->errors());       
+    //     }
+
+    //     $user = User::create($input);
+   
+    //     return $this->sendResponse(new UserResource($user), 'User created successfully.');
+    // } 
    
     /**
      * Display the specified resource.

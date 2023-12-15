@@ -72,10 +72,12 @@ class UserController extends BaseController
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
-        // Generate a random 8-digit number for the 'check' field
-        $input['check'] = mt_rand(10000000, 99999999);
-
+        // Keep generating a random 8-digit number until it's unique
+        do {
+             $check= mt_rand(10000000, 99999999);
+        }
+        while (User::where('check', $check)->exists());
+        $input['check']=$check;
         $user = User::create($input);
 
         return $this->sendResponse(new UserResource($user), 'User created successfully.');

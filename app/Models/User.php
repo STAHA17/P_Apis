@@ -52,8 +52,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Appliance::class);
     }
-
-    public function getLatLong(){
-        return $this->latitude;
-    }
 }

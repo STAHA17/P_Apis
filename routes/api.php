@@ -51,17 +51,17 @@ Route::middleware(['cors'])->group(function(){
 
     //This for testing
     Route::post('some',function(){
-        return "some thing ho geya";
+        return "some thing Done for testing";
     });
 
-    //These Two Rutes for GA
+    //These Routes for GA
     Route::get('getUserDetailsThroughId/{id}', [GAController::class,'getUserDetailsThroughId'])->name("getUserDetailsThroughId");
     Route::get('showUserAppliances/{id}', [GAController::class,'showUserAppliances'])->name("showUserAppliances");
     Route::get('getUserDetailsAndAppliances/{id}', [GAController::class,'getUserDetailsAndAppliances'])->name("getUserDetailsAndAppliances");
     
     Route::get('showUserAppliancesX/{id}', [GenaticController::class,'showUserAppliancesX'])->name("showUserAppliancesX");
     
-    //These Routes for Retreve Data Function
+    //These Routes for Retreve Data From Functions
     Route::get('getUserCheckById/{id}', [UserController::class,'getUserCheckById'])->name("getUserCheckById");
     Route::get('getUserIdByCheck/{check}', [UserController::class,'getUserIdByCheck'])->name("getUserIdByCheck");
     Route::get('/schedules/show1/{date}', [SchedulingController::class, 'show1']);

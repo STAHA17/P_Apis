@@ -17,12 +17,6 @@ class Scheduling extends Model
         'appliance_id',
     ];
 
-
-    //define user-scheduling relationship in model
-    // public function user()
-    // {
-    //     return $this->belongsTo(Scheduling::class);
-    // }
     public function appliance()
     {
         return $this->belongsTo(Appliance::class, 'appliance_id');

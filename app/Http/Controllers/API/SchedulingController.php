@@ -29,6 +29,48 @@ class SchedulingController extends BaseController
      * @return \Illuminate\Http\Response
      */
 
+    //  public function store(Request $request)
+    // {
+    //     $input = $request->all();
+
+    //     $validator = Validator::make($input, [
+    //         'start_time' => 'required|date_format:H:i:s',
+    //         'end_time' => 'required|date_format:H:i:s',
+    //         'date' => 'required|date_format:Y-m-d',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return $this->sendError('Validation Error.', $validator->errors());
+    //     }
+
+    //     $startTime = Carbon::createFromFormat('H:i:s', $input['start_time']);
+    //     $endTime = Carbon::createFromFormat('H:i:s', $input['end_time']);
+
+    //     // Validate that start_time is before end_time
+    //     if ($startTime->greaterThanOrEqualTo($endTime)) {
+    //         return $this->sendError('Validation Error.', 'start_time must be before end_time.');
+    //     }
+
+    //     // Create an array to store individual time slots
+    //     $timeSlots = [];
+
+    //     // Loop through each minute and create entries
+    //     while ($startTime->lessThan($endTime)) {
+    //         $timeSlots[] = [
+    //             'start_time' => $startTime->format('H:i:s'),
+    //             'end_time' => $startTime->addMinute()->format('H:i:s'),
+    //             'date' => $input['date'],
+    //         ];
+    //     }
+
+    //     // Create scheduling entries for each time slot
+    //     foreach ($timeSlots as $timeSlot) {
+    //         Scheduling::create($timeSlot);
+    //     }
+
+    //     return $this->sendResponse([], 'Scheduling slots created successfully.');
+    // }
+
     public function store(Request $request)
     {
         $input = $request->all();
@@ -132,7 +174,7 @@ class SchedulingController extends BaseController
         }
 
         try {
-            // Loop through the input data and update only the provided fields
+            // Loop over the input data and update only the provided fields
             foreach ($input as $key => $value) {
                 $scheduling->{$key} = $value;
             }

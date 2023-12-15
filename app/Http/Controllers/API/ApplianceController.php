@@ -103,7 +103,7 @@ class ApplianceController extends BaseController
         }
 
         try {
-            // Loop through the input data and update only the provided fields
+            // Loop over the input data and update only the provided fields
             foreach ($input as $key => $value) {
                 $appliance->{$key} = $value;
             }
@@ -111,7 +111,9 @@ class ApplianceController extends BaseController
             $appliance->save();
 
             return $this->sendResponse(new ApplianceResource($appliance), 'Appliance updated successfully.');
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e)
+        {
             // Handle the exception, log, and return an error response
             return $this->sendError('Error updating appliance.', ['message' => $e->getMessage()]);
         }

@@ -122,7 +122,7 @@ class UserController extends BaseController
         }
 
         try {
-            // Loop through the input data and update only the provided fields
+            // Loop over the input data and update only the provided fields
             foreach ($input as $key => $value) {
                 $user->{$key} = $value;
             }
@@ -130,7 +130,9 @@ class UserController extends BaseController
             $user->save();
 
             return $this->sendResponse(new UserResource($user), 'User updated successfully.');
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e)
+        {
             // Handle the exception, log, and return an error response
             return $this->sendError('Error updating user.', ['message' => $e->getMessage()]);
         }
